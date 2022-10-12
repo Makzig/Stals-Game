@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/Player And Mobs/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Player And Mobs/Mobs/Bot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://WorldEnvironment.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/GUI/Pause.tscn" type="PackedScene" id=4]
+
+[sub_resource type="NavigationMesh" id=1]
+vertices = PoolVector3Array( 0, 0.499, -7.5, -11.5, 0.499, 0, -11.5, 0.499, 7.5, 0, 0.499, 7.5, 11.5, 0.499, 0, 11.5, 0.499, -7.5, 0, 0.499, 7.5, 11.5, 0.499, 7.5, 11.5, 0.499, 0, 0, 0.499, -7.5, -11.5, 0.499, -7.5, -11.5, 0.499, 0 )
+polygons = [ PoolIntArray( 5, 4, 0 ), PoolIntArray( 0, 4, 3 ), PoolIntArray( 0, 3, 1 ), PoolIntArray( 1, 3, 2 ), PoolIntArray( 8, 7, 6 ), PoolIntArray( 11, 10, 9 ) ]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0396006, 0.21628 )
+
+[node name="WorldEnvironment" parent="." instance=ExtResource( 3 )]
+
+[node name="Navigation" type="Navigation" parent="."]
+
+[node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
+navmesh = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="Navigation/NavigationMeshInstance"]
+use_collision = true
+width = 24.0
+height = 0.002
+depth = 16.0
+
+[node name="Bot" parent="Navigation" instance=ExtResource( 2 )]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -11, 0, -1 )
+player_path = NodePath("../../Player")
+
+[node name="BoneAttachment" parent="Navigation/Bot/scout_girl/Armature/Skeleton" index="0"]
+transform = Transform( 1, 3.25428e-16, -6.99687e-16, -7.55905e-16, 0.554446, -0.822472, 1.22443e-16, 0.828253, 0.560222, -4.56276e-17, 3.5471, -0.919053 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause" parent="CanvasLayer" instance=ExtResource( 4 )]
+
+[editable path="Player"]
+[editable path="Player/fox"]
+[editable path="Navigation/Bot"]
+[editable path="Navigation/Bot/scout_girl"]
